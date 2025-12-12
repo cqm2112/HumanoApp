@@ -236,7 +236,7 @@ const Dashboard = () => {
                                     <Server size={20} className="text-green-500" /> Instancia API (Swagger) <ExternalLink size={14} className="opacity-50" />
                                 </a>
 
-                                <a href="https://docs.google.com/forms/u/0/" target="_blank" rel="noopener noreferrer" className="w-full text-left p-3 hover:bg-slate-50 rounded-xl flex items-center gap-3 text-slate-600 font-medium transition-colors">
+                                <a href="https://forms.gle/FRAgPHbeMP21sYz78" target="_blank" rel="noopener noreferrer" className="w-full text-left p-3 hover:bg-slate-50 rounded-xl flex items-center gap-3 text-slate-600 font-medium transition-colors">
                                     <FileText size={20} className="text-purple-500" /> Encuesta de Prueba <ExternalLink size={14} className="opacity-50" />
                                 </a>
 
