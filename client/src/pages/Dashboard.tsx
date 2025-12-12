@@ -75,7 +75,9 @@ const Dashboard = () => {
         const productData = {
             ...productForm,
             price: parseFloat(productForm.price),
-            isPublic: productForm.isPublic
+            isPublic: productForm.isPublic,
+            userId: user?.id,
+
         };
 
         if (isEditing && currentProductId) {

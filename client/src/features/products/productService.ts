@@ -51,8 +51,8 @@ const updateProduct = async (productData: Product, token: string) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.put(API_URL + productData.id, productData, config);
-    return response.data;
+    await axios.put(API_URL + productData.id, productData, config);
+    return productData;
 };
 
 const productService = {
