@@ -54,9 +54,8 @@ const Register = () => {
         }
 
         const userData = {
-            Username: username,
-            Email: email,
-            PasswordHash: password,
+            username: username,
+            password: password,
         };
 
         dispatch(register(userData));

@@ -47,8 +47,8 @@ const Login = () => {
         e.preventDefault();
 
         const userData = {
-            Username: username,
-            PasswordHash: password,
+            username: username,
+            password: password,
         };
 
         dispatch(login(userData));

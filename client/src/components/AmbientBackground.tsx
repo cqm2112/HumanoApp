@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const AmbientBackground = () => {
-  
+
     const colors = [
-        'bg-[#19ABE3]/30', 
-        'bg-[#FFA500]/20', 
-        'bg-[#464C5E]/10', 
+        'bg-[#19ABE3]/30',
+        'bg-[#FFA500]/20',
+        'bg-[#464C5E]/10',
         'bg-[#19ABE3]/20',
-        'bg-cyan-400/20'   
+        'bg-cyan-400/20'
     ];
 
     const [orbs] = useState(() => Array.from({ length: 8 }).map((_, i) => ({
         id: i,
         color: colors[i % colors.length],
-        size: Math.random() * 300 + 400, 
+        size: Math.random() * 300 + 400,
         initialX: Math.random() * 100,
         initialY: Math.random() * 100,
         duration: Math.random() * 10 + 15,

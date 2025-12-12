@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const NetworkBackground = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,7 +14,7 @@ const NetworkBackground = () => {
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
-        // Mouse state
+        
         const mouse = { x: -1000, y: -1000 };
 
         const resize = () => {
