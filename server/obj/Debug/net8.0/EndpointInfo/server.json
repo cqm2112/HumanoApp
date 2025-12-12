@@ -67,10 +67,10 @@
         }
       }
     },
-    "/api/External/weather": {
-      "get": {
+    "/api/Auth/validateToken": {
+      "post": {
         "tags": [
-          "External"
+          "Auth"
         ],
         "responses": {
           "200": {
@@ -163,6 +163,46 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"

@@ -20,7 +20,8 @@ const initialState: ProductState = {
 
 export const getProducts = createAsyncThunk('products/getAll', async (_, thunkAPI: any) => {
     try {
-        return await productService.getProducts();
+        const token = thunkAPI.getState().auth.user.token;
+        return await productService.getProducts(token);
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
         return thunkAPI.rejectWithValue(message);

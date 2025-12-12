@@ -13,6 +13,8 @@ public class ProductsController : ControllerBase
     private readonly AppDbContext _db;
     public ProductsController(AppDbContext db) => _db = db;
 
+
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] string? category, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
@@ -21,8 +23,8 @@ public class ProductsController : ControllerBase
 
         var query = _db.Products.AsQueryable();
         
-        // Filter: Public OR Owned by current user
-        query = query.Where(p => p.IsPublic || p.UserId == currentUserId);
+        
+        query = query.Include(p => p.User).Where(p => p.IsPublic || p.UserId == currentUserId);
 
         if (!string.IsNullOrWhiteSpace(category))
             query = query.Where(p => p.Category == category);
@@ -59,11 +61,40 @@ public class ProductsController : ControllerBase
         if (!int.TryParse(uidClaim, out int userId)) return Unauthorized();
 
         product.UserId = userId;
-        // IsPublic is set from the request body or defaults to false
+        
 
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
+        
+        
+        product.User = await _db.Users.FindAsync(userId);
+
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+    }
+
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, Product product)
+    {
+        if (id != product.Id) return BadRequest();
+        if (string.IsNullOrWhiteSpace(product.Name)) return BadRequest("Name required");
+        if (product.Price < 0) return BadRequest("Price invalid");
+
+        var p = await _db.Products.FindAsync(id);
+        if (p is null) return NotFound();
+
+        var uidClaim = User.FindFirst("userId")?.Value;
+        if (!int.TryParse(uidClaim, out int userId)) return Unauthorized();
+
+        if (p.UserId != userId) return Forbid();
+
+        p.Name = product.Name;
+        p.Category = product.Category;
+        p.Price = product.Price;
+        p.IsPublic = product.IsPublic;
+
+        await _db.SaveChangesAsync();
+        return NoContent();
     }
 
     [Authorize]

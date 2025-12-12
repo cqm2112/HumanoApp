@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Models;
 using Server.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -44,9 +46,14 @@ public class AuthController : ControllerBase
         if (user is null) return Unauthorized("Invalid credentials");
 
         var token = _jwt.GenerateToken(user);
-        return Ok(new { token });
+        return Ok(new { token, user.Id, user.Username });
     }
-
+    [Authorize]
+    [HttpPost("validateToken")]
+    public async Task<IActionResult> validateToken()
+    { 
+        return Ok();
+    }
     private static string HashPassword(string password)
     {
         using var sha = SHA256.Create();

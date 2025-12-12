@@ -22,10 +22,21 @@ const logout = () => {
     localStorage.removeItem('user');
 };
 
+const validateToken = async (token: string) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.post(API_URL + 'validateToken', {}, config);
+    response.status === 200 ? true : logout();
+};
+
 const authService = {
     login,
     register,
     logout,
+    validateToken,
 };
 
 export default authService;
