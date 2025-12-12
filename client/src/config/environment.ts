@@ -6,7 +6,7 @@ const config = {
         API_URL: import.meta.env.VITE_API_URL || 'http://localhost:7293',
     },
     production: {
-        API_URL: import.meta.env.VITE_API_URL || 'http://crisquiroz-001-site1.qtempurl.com',
+        API_URL: import.meta.env.VITE_API_URL || 'https://crisquiroz-001-site1.qtempurl.com',
     },
 };
 
