@@ -5,22 +5,23 @@ import { motion } from 'framer-motion';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { UserPlus } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import type { RootState } from '../app/store';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import type { RootState } from '../stores/store';
 import GravityBackground from '../components/GravityBackground';
+import { useToast } from '../contexts/ToastContext';
 
 const Register = () => {
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
         password: '',
         confirmPassword: ''
     });
 
-    const { username, email, password, confirmPassword } = formData;
+    const { username, password, confirmPassword } = formData;
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { showToast } = useToast();
 
     const { user, isLoading, isError, isSuccess, message } = useAppSelector(
         (state: RootState) => state.auth
@@ -28,7 +29,7 @@ const Register = () => {
 
     useEffect(() => {
         if (isError) {
-            alert(message);
+            showToast(message, 'error');
         }
 
         if (isSuccess || user) {
@@ -49,13 +50,13 @@ const Register = () => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert('Las contraseñas no coinciden');
+            showToast('Las contraseñas no coinciden', 'error');
             return;
         }
 
         const userData = {
-            username: username,
-            password: password,
+            username,
+            passwordHash: password,
         };
 
         dispatch(register(userData));
@@ -96,15 +97,7 @@ const Register = () => {
                         placeholder="Elige un usuario"
                         required
                     />
-                    <Input
-                        label="Email"
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={onChange}
-                        placeholder="tu@email.com"
-                        required
-                    />
+
                     <Input
                         label="Contraseña"
                         type="password"

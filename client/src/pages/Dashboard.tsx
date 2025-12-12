@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 import { logout, reset as resetAuth, validateToken } from '../features/auth/authSlice';
 import { createProduct, getProducts, deleteProduct, updateProduct, reset as resetProducts } from '../features/products/productSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { LogOut, Plus, Trash2, Package, X, Edit2, CloudSun, Menu, User, Server, FileText, ExternalLink, ArrowLeft, Globe, Lock, LogIn } from 'lucide-react';
-import type { RootState } from '../app/store';
+import type { RootState } from '../stores/store';
 
 import WaveBackground from '../components/WaveBackground';
 
@@ -177,15 +177,7 @@ const Dashboard = () => {
                                 <CloudSun size={20} /> Clima
                             </motion.button>
                             <div className="h-10 w-px bg-slate-200 mx-2"></div>
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => navigate('/profile')}
-                                title="Editar Perfil"
-                                className="p-2 text-slate-500 hover:text-[#19ABE3] hover:bg-white rounded-full transition-colors"
-                            >
-                                <User size={24} />
-                            </motion.button>
+
                             <button
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 className="p-2 text-slate-600 hover:bg-white hover:text-[#19ABE3] rounded-full transition-colors"

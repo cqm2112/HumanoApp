@@ -26,33 +26,54 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(User user)
     {
-        if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.PasswordHash))
-            return BadRequest("Username and password required");
+        try
+        {
+            if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.PasswordHash))
+                return BadRequest("Username and password required");
 
-        if (await _db.Users.AnyAsync(x => x.Username == user.Username))
-            return BadRequest("Username taken");
+            if (await _db.Users.AnyAsync(x => x.Username == user.Username))
+                return BadRequest("Username taken");
 
-        user.PasswordHash = HashPassword(user.PasswordHash);
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
-        return Ok(new { user.Id, user.Username });
+            user.PasswordHash = HashPassword(user.PasswordHash);
+            _db.Users.Add(user);
+            await _db.SaveChangesAsync();
+            return Ok(new { user.Id, user.Username });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(User login)
     {
-        var hash = HashPassword(login.PasswordHash);
-        var user = await _db.Users.FirstOrDefaultAsync(x => x.Username == login.Username && x.PasswordHash == hash);
-        if (user is null) return Unauthorized("Invalid credentials");
+        try
+        {
+            var hash = HashPassword(login.PasswordHash);
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Username == login.Username && x.PasswordHash == hash);
+            if (user is null) return Unauthorized("Invalid credentials");
 
-        var token = _jwt.GenerateToken(user);
-        return Ok(new { token, user.Id, user.Username });
+            var token = _jwt.GenerateToken(user);
+            return Ok(new { token, user.Id, user.Username });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
     [Authorize]
     [HttpPost("validateToken")]
     public async Task<IActionResult> validateToken()
-    { 
-        return Ok();
+    {
+        try
+        {
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
     private static string HashPassword(string password)
     {

@@ -5,11 +5,13 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import { ArrowLeft, Save, User } from 'lucide-react';
 import WaveBackground from '../components/WaveBackground';
-import { useAppSelector } from '../app/hooks';
+import { useAppSelector } from '../hooks/hooks';
+import { useToast } from '../contexts/ToastContext';
 
 const Profile = () => {
     const navigate = useNavigate();
     const { user } = useAppSelector((state) => state.auth);
+    const { showToast } = useToast();
 
     const [formData, setFormData] = useState({
         username: user?.username || 'Usuario Actual',
@@ -23,7 +25,7 @@ const Profile = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Funcionalidad de guardar perfil en desarrollo.');
+        showToast('Funcionalidad de guardar perfil en desarrollo.', 'info');
     };
 
     return (

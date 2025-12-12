@@ -5,9 +5,10 @@ import { motion } from 'framer-motion';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { LogIn, CloudSun } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import type { RootState } from '../app/store';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import type { RootState } from '../stores/store';
 import GravityBackground from '../components/GravityBackground';
+import { useToast } from '../contexts/ToastContext';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { showToast } = useToast();
 
     const { user, isLoading, isError, isSuccess, message } = useAppSelector(
         (state: RootState) => state.auth
@@ -26,7 +28,7 @@ const Login = () => {
 
     useEffect(() => {
         if (isError) {
-            alert(message);
+            showToast("Credenciales invalidas", 'error');
         }
 
         if (isSuccess || user) {

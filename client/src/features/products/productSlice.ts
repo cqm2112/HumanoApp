@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import productService, { type Product } from './productService';
-import type { RootState } from '../../app/store';
+import type { RootState } from '../../stores/store';
 
 interface ProductState {
     products: Product[];
