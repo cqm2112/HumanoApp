@@ -232,7 +232,7 @@ const Dashboard = () => {
                                     <CloudSun size={20} className="text-orange-400" /> Ver Clima
                                 </button>
 
-                                <a href="http://localhost:7293/swagger" target="_blank" rel="noopener noreferrer" className="w-full text-left p-3 hover:bg-slate-50 rounded-xl flex items-center gap-3 text-slate-600 font-medium transition-colors">
+                                <a href="https://crisquiroz-001-site1.qtempurl.com/swagger" target="_blank" rel="noopener noreferrer" className="w-full text-left p-3 hover:bg-slate-50 rounded-xl flex items-center gap-3 text-slate-600 font-medium transition-colors">
                                     <Server size={20} className="text-green-500" /> Instancia API (Swagger) <ExternalLink size={14} className="opacity-50" />
                                 </a>
 
