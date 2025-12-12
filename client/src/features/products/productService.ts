@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { environment } from '../../config/environment';
 
-const API_URL = 'http://localhost:7293/api/products/';
+const API_URL = `${environment.API_URL}/api/products/`;
 
 const getProducts = async (token: string) => {
     const config = {

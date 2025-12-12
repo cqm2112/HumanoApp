@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { environment } from '../../config/environment';
 
 
-const API_URL = 'http://localhost:7293/WeatherForecast/';
+const API_URL = `${environment.API_URL}/WeatherForecast/`;
 
 const getWeather = async () => {
     const response = await axios.get(API_URL);

@@ -93,10 +93,10 @@ const NetworkBackground = () => {
 
             // Draw connections
             for (let a = 0; a < particles.length; a++) {
-                let p1 = particles[a];
+                const p1 = particles[a];
                 p1.update();
                 for (let b = a; b < particles.length; b++) {
-                    let p2 = particles[b];
+                    const p2 = particles[b];
                     const dx = p1.x - p2.x;
                     const dy = p1.y - p2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);

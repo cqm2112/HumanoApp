@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { environment } from '../../config/environment';
 
-const API_URL = 'http://localhost:7293/api/auth/';
+const API_URL = `${environment.API_URL}/api/auth/`;
 
 const login = async (userData: any) => {
     const response = await axios.post(API_URL + 'login', userData);

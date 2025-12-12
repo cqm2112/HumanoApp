@@ -138,5 +138,5 @@ C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\refint\s
 C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\server.pdb
 C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\server.genruntimeconfig.cache
 C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\ref\server.dll
-C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\server.sourcelink.json
+C:\Users\Arlin Espaillat\source\repos\HumanoApp\server\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
