@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
 
+interface User {
+    id?: string;
+    username?: string;
+    token?: string;
+}
+
 interface AuthState {
-    user: any;
+    user: User | null;
     isError: boolean;
     isSuccess: boolean;
     isLoading: boolean;
@@ -19,20 +25,20 @@ const initialState: AuthState = {
     message: '',
 };
 
-export const login = createAsyncThunk('auth/login', async (user: any, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async (user: { username: string; password: string }, thunkAPI) => {
     try {
         return await authService.login(user);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
 
-export const register = createAsyncThunk('auth/register', async (user: any, thunkAPI) => {
+export const register = createAsyncThunk('auth/register', async (user: { username: string; password: string }, thunkAPI) => {
     try {
         return await authService.register(user);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
@@ -44,8 +50,8 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const validateToken = createAsyncThunk('auth/validateToken', async (token: string, thunkAPI) => {
     try {
         return await authService.validateToken(token);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });

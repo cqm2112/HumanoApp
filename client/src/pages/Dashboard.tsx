@@ -16,7 +16,6 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const { user } = useAppSelector((state: RootState) => state.auth);
-    // Explicitly select isLoading to avoid re-renders or dependency issues if we were using the whole state object
     const { products, isLoading, isError, message } = useAppSelector((state: RootState) => state.products);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,8 +41,8 @@ const Dashboard = () => {
 
     useEffect(() => {
 
-        if (user) {
-            dispatch(validateToken(user?.token));
+        if (user && user.token) {
+            dispatch(validateToken(user.token));
             dispatch(getProducts());
         }
 
@@ -94,7 +93,7 @@ const Dashboard = () => {
         setIsModalOpen(true);
     };
 
-    const openEditModal = (product: any) => {
+    const openEditModal = (product: { id: string; name: string; category?: string; price: number; isPublic?: boolean }) => {
         setIsEditing(true);
         setCurrentProductId(product.id);
         setProductForm({
@@ -303,7 +302,7 @@ const Dashboard = () => {
                 >
                     <AnimatePresence mode='popLayout'>
                         {products && products.length > 0 ? (
-                            products.map((product: any) => (
+                            products.map((product) => (
                                 <motion.div
                                     key={product.id}
                                     variants={itemVariants}

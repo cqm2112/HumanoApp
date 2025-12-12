@@ -3,6 +3,18 @@ import { environment } from '../../config/environment';
 
 const API_URL = `${environment.API_URL}/api/products/`;
 
+interface Product {
+    id: string;
+    name: string;
+    category?: string;
+    price: number;
+    isPublic?: boolean;
+    userId?: string;
+    user?: {
+        username: string;
+    };
+}
+
 const getProducts = async (token: string) => {
     const config = {
         headers: {
@@ -13,7 +25,7 @@ const getProducts = async (token: string) => {
     return response.data;
 };
 
-const createProduct = async (productData: any, token: string) => {
+const createProduct = async (productData: Omit<Product, 'id'>, token: string) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -33,7 +45,7 @@ const deleteProduct = async (productId: string, token: string) => {
     return response.data;
 };
 
-const updateProduct = async (productData: any, token: string) => {
+const updateProduct = async (productData: Product, token: string) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -51,3 +63,4 @@ const productService = {
 };
 
 export default productService;
+export type { Product };

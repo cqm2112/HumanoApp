@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const AmbientBackground = () => {
-    // Definir colores específicos de Humano
+  
     const colors = [
-        'bg-[#19ABE3]/30', // Azul Humano (más visible)
-        'bg-[#FFA500]/20', // Naranja Humano
-        'bg-[#464C5E]/10', // Gris Humano
-        'bg-[#19ABE3]/20', // Azul suave
-        'bg-cyan-400/20'   // Cyan complementar
+        'bg-[#19ABE3]/30', 
+        'bg-[#FFA500]/20', 
+        'bg-[#464C5E]/10', 
+        'bg-[#19ABE3]/20',
+        'bg-cyan-400/20'   
     ];
 
-    // Generar un set de orbes con propiedades aleatorias pero controladas para asegurar movimiento visible
-    const orbs = Array.from({ length: 8 }).map((_, i) => ({
+    const [orbs] = useState(() => Array.from({ length: 8 }).map((_, i) => ({
         id: i,
         color: colors[i % colors.length],
-        size: Math.random() * 300 + 400, // Entre 400px y 700px
+        size: Math.random() * 300 + 400, 
         initialX: Math.random() * 100,
         initialY: Math.random() * 100,
-        duration: Math.random() * 10 + 15, // Entre 15 y 25 segundos (lento pero visible)
-    }));
+        duration: Math.random() * 10 + 15,
+        moveX1: (Math.random() - 0.5) * 400,
+        moveX2: (Math.random() - 0.5) * 400,
+        moveY1: (Math.random() - 0.5) * 400,
+        moveY2: (Math.random() - 0.5) * 400,
+    })));
 
     return (
         <div className="fixed inset-0 overflow-hidden -z-0 bg-white">
@@ -36,14 +39,14 @@ const AmbientBackground = () => {
                     animate={{
                         x: [
                             0,
-                            (Math.random() - 0.5) * 400,
-                            (Math.random() - 0.5) * 400,
+                            orb.moveX1,
+                            orb.moveX2,
                             0
                         ],
                         y: [
                             0,
-                            (Math.random() - 0.5) * 400,
-                            (Math.random() - 0.5) * 400,
+                            orb.moveY1,
+                            orb.moveY2,
                             0
                         ],
                         scale: [1, 1.2, 0.9, 1],

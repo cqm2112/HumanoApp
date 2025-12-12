@@ -1,9 +1,10 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import productService from './productService';
+import productService, { type Product } from './productService';
+import type { RootState } from '../../app/store';
 
 interface ProductState {
-    products: any[];
+    products: Product[];
     isError: boolean;
     isSuccess: boolean;
     isLoading: boolean;
@@ -18,43 +19,51 @@ const initialState: ProductState = {
     message: '',
 };
 
-export const getProducts = createAsyncThunk('products/getAll', async (_, thunkAPI: any) => {
+export const getProducts = createAsyncThunk('products/getAll', async (_, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token;
+        const state = thunkAPI.getState() as RootState;
+        const token = state.auth.user?.token;
+        if (!token) throw new Error('No token available');
         return await productService.getProducts(token);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
 
-export const createProduct = createAsyncThunk('products/create', async (productData: any, thunkAPI: any) => {
+export const createProduct = createAsyncThunk('products/create', async (productData: Omit<Product, 'id'>, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token;
+        const state = thunkAPI.getState() as RootState;
+        const token = state.auth.user?.token;
+        if (!token) throw new Error('No token available');
         return await productService.createProduct(productData, token);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
 
-export const updateProduct = createAsyncThunk('products/update', async (productData: any, thunkAPI: any) => {
+export const updateProduct = createAsyncThunk('products/update', async (productData: Product, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token;
+        const state = thunkAPI.getState() as RootState;
+        const token = state.auth.user?.token;
+        if (!token) throw new Error('No token available');
         return await productService.updateProduct(productData, token);
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
 
-export const deleteProduct = createAsyncThunk('products/delete', async (id: string, thunkAPI: any) => {
+export const deleteProduct = createAsyncThunk('products/delete', async (id: string, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token;
+        const state = thunkAPI.getState() as RootState;
+        const token = state.auth.user?.token;
+        if (!token) throw new Error('No token available');
         await productService.deleteProduct(id, token);
         return id;
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    } catch (error: unknown) {
+        const message = (error as { response?: { data?: { message?: string } }; message?: string }).response?.data?.message || (error as Error).message || String(error);
         return thunkAPI.rejectWithValue(message);
     }
 });
@@ -104,7 +113,7 @@ export const productSlice = createSlice({
             .addCase(updateProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                const index = state.products.findIndex((product: any) => product.id === action.payload.id);
+                const index = state.products.findIndex((product) => product.id === action.payload.id);
                 if (index !== -1) {
                     state.products[index] = action.payload;
                 }
@@ -120,7 +129,7 @@ export const productSlice = createSlice({
             .addCase(deleteProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.products = state.products.filter((product: any) => product.id !== action.payload);
+                state.products = state.products.filter((product) => product.id !== action.payload);
             })
             .addCase(deleteProduct.rejected, (state, action) => {
                 state.isLoading = false;
