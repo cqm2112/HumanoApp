@@ -37,7 +37,8 @@ public class AuthController : ControllerBase
             user.PasswordHash = HashPassword(user.PasswordHash);
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
-            return Ok(new { user.Id, user.Username });
+            var token = _jwt.GenerateToken(user);
+            return Ok(new { token, user.Id, user.Username });
         }
         catch (Exception ex)
         {
